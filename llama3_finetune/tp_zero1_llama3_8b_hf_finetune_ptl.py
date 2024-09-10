@@ -380,8 +380,9 @@ def build_args() -> argparse.ArgumentParser:
         "--pretrained_ckpt",
         type=str,
         #default=os.getcwd() + "/llama7B-pretrained",
-        # default=os.getcwd() + "/Meta-Llama-3-8B",
-        default="/shared/Meta-Llama-3-8B",
+        #default=os.getcwd() + "/Meta-Llama-3-8B",
+        #default="/shared/Meta-Llama-3-8B",
+        default=os.getcwd() + "/Meta-Llama-3.1-8B",
         help="Directory for pretrained weights",
     )
     parser.add_argument("--log_dir", type=str, default=os.getcwd() + "/llama8B-logs", help="Directory for log files")
