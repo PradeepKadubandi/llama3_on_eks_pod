@@ -1,0 +1,32 @@
+#Source aws_neuronx_venv_pytorch_2_1 vent
+$ source aws_neuronx_venv_pytorch_2_1/bin/activate
+
+#Install huggingface-cli
+$ pip install --upgrade huggingface_hub[cli]
+
+#Login to hugging face using your token
+$ huggingface-cli login —token <TOKEN>
+
+#unzip and go to the directory
+$ cd ptl_tuning_llama3.1
+
+#Install all dependencies
+$ pip install -r requirements.txt
+
+#Install nxd
+$ pip install neuronx_distributed --extra-index-url https://pip.repos.neuron.amazonaws.com
+
+#Install transformers==4.32.1
+$ pip install --no-warn-conflicts transformers==4.32.1 
+
+# Download Llama-3 8B checkpoint and save locally
+$ python3 download_llama.py
+
+# Create a directory for sharded checkpoints
+$ mkdir -p Meta-Llama-3.1-8B/pretrained_weight
+
+# Covert checkpoints into 8 shards to run it with TP_SIZE=8
+$ python3 convert_checkpoints.py --tp_size 8 --convert_from_full_state --config config.json --input_dir llama3.1-8b-hf-pretrained.pt --output_dir Meta-Llama-3.1-8B/pretrained_weight/
+
+# Run tuning script
+$ ./tp_zero1_llama3.1_8b_hf_finetune_ptl.sh 

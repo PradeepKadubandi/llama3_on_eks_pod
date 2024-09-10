@@ -46,7 +46,7 @@ TOTAL_EPOCHS=5
 # warmup steps
 WARMUP_STEPS=20
 # learning rate
-LR=5.0e-5
+LR=3.0e-4
 # model path
 MODEL_PATH=$SCRIPT_DIR
 #MODEL_PATH=./Meta-Llama-3-8B/
@@ -59,7 +59,7 @@ SEQ_LEN=8192
 DATA_PATH="databricks/databricks-dolly-15k"
 #MODEL_ID
 #MODEL_ID="meta-llama/Meta-Llama-3-8B"
-MODEL_ID="NousResearch/Meta-Llama-3-8B"
+MODEL_ID="NousResearch/Meta-Llama-3.1-8B"
 #Checkpoint Dir
 CKPT_DIR="./LLAMA3_NEURON_CKPT"
 #CKPT frequency
@@ -194,6 +194,7 @@ python \
     --lr $LR \
     --grad_accum_usteps $ACC_STEPS \
     --seq_len $SEQ_LEN \
+    --sequence_parallel_enabled \
     --selective_checkpoint_enabled \
     --num_nodes $NUM_NODES \
     $EXTRA_ARGS |& tee $OUTPUT_LOG

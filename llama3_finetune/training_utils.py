@@ -13,6 +13,9 @@ import torch
 from torch.utils.data import DistributedSampler
 from torch.utils.data.dataloader import DataLoader
 from transformers import default_data_collator, set_seed
+from neuronx_distributed.parallel_layers.parallel_state import (
+    get_tensor_model_parallel_size,
+)
 
 try:
     from lr import CosineAnnealing
@@ -49,8 +52,10 @@ def pack_dataset(dataset, chunk_length=2048):
         }
         # add remainder to global variable for next batch
         remainder = {k: concatenated_examples[k][batch_chunk_length:] for k in concatenated_examples.keys()}
+        
         # prepare labels
         result["labels"] = result["input_ids"].copy()
+        
         return result
 
     # tokenize and chunk dataset
@@ -60,7 +65,6 @@ def pack_dataset(dataset, chunk_length=2048):
     )
     print(f"Total number of samples: {len(lm_dataset)}")
     return lm_dataset
-
 
 def get_learning_rate_scheduler(optimizer, args, last_epoch=-1):
     lr_scheduler = CosineAnnealing(
@@ -134,7 +138,7 @@ def create_instruction_based_dataset(data_dir, mini_batch_size, dp_size, dp_rank
     train_and_test_dataset = raw_datasets.train_test_split(test_size=2)
     train_dataset = train_and_test_dataset["train"]
     test_dataset = train_and_test_dataset["test"]
-
+    
     def preprocess_train_dataset(sample):
         instruction = f"### Instruction\n{sample['instruction']}"
         context = f"### Context\n{sample['context']}" if len(sample["context"]) > 0 else None
@@ -181,7 +185,13 @@ def create_instruction_based_dataset(data_dir, mini_batch_size, dp_size, dp_rank
         # join all the parts together
         prompt = "\n".join([i for i in [instruction, context, response] if i is not None])
         model_input = tokenizer(prompt, add_special_tokens=False)
-        labels = tokenizer(sample["response"], add_special_tokens=False)
+        #Find the nearest input length divisible by TP_SIZE
+        max_length = len(model_input['input_ids']) - len(model_input['input_ids']) % get_tensor_model_parallel_size() + get_tensor_model_parallel_size()
+        #max_length = 128
+        tokenizer.pad_token = tokenizer.eos_token
+        #add padding to match the length of the nearest input length divisible by TP_SIZE
+        model_input = tokenizer(prompt, max_length=max_length, padding='max_length', truncation=True)
+        labels = tokenizer(sample["response"])
         model_input["labels"] = labels["input_ids"]
         return model_input
 

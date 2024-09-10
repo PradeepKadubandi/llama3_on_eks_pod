@@ -18,7 +18,7 @@
 # For more help, reach out to Perplexity or Google.
 
 # Replace with your desired repository name
-ECR_REPO_NAME="kuberay_trn1_llama3"
+ECR_REPO_NAME="kuberay_trn1_llama3.1"
 
 # # Check that we are running on an x86_64 instance to avoid issues with docker build
 # arch=$(uname -m)

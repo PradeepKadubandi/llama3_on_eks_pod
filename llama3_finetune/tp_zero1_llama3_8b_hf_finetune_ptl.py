@@ -276,11 +276,11 @@ def evaluate(model, tokenizer, test_loader, golden_rouge_score_path):
                 top_k=50,
                 top_p=0.9,
             )
-            prompt = tokenizer.decode(input_ids[0], clean_up_tokenization_spaces=True)
+            prompt = tokenizer.decode(input_ids[0], clean_up_tokenization_spaces=True, skip_special_tokens=True)
             predicted_text = tokenizer.decode(
-                output_sequences[0][input_length:].cpu(), skip_special_tokens=True, clean_up_tokenization_spaces=True
+                output_sequences[0][input_length:].cpu(), skip_special_tokens=True, clean_up_tokenization_spaces=False
             )
-            label_text = tokenizer.decode(labels[0].cpu(), clean_up_tokenization_spaces=True)
+            label_text = tokenizer.decode(labels[0].cpu(), clean_up_tokenization_spaces=True, skip_special_tokens=True)
             rouge.update(predicted_text, label_text)
             if parallel_state.get_tensor_model_parallel_rank() == 0:
                 print(f"=== PROMPT ===")

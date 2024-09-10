@@ -16,7 +16,7 @@
 apiVersion: ray.io/v1
 kind: RayJob
 metadata:
-  name: llama3-pretraining-job
+  name: llama3.1-pretraining-job
 spec:
   submissionMode: K8sJobMode
   entrypoint: "NEURON_NUM_DEVICES=32 bash tp_zero1_llama3_8b_hf_finetune_ptl.sh"

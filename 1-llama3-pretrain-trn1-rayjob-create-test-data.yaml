@@ -15,11 +15,11 @@
 apiVersion: ray.io/v1
 kind: RayJob
 metadata:
-  name: llama3-generate-pretraining-test-data
+  name: llama3.1-generate-pretraining-test-data
   namespace: default
 spec:
   submissionMode: K8sJobMode
-  entrypoint: "python3 download_llama.py && mkdir -p /shared/Meta-Llama-3-8B/pretrained_weight && python3 convert_checkpoints.py --tp_size 8 --convert_from_full_state --config config.json --input_dir /shared/llama3-8b-hf-pretrained.pt --output_dir /shared/Meta-Llama-3-8B/pretrained_weight/"
+  entrypoint: "python3 download_llama.py && mkdir -p /shared/Meta-Llama-3.1-8B/pretrained_weight && python3 convert_checkpoints.py --tp_size 8 --convert_from_full_state --config ./config.json --input_dir /shared/llama3.1-8b-hf-pretrained.pt --output_dir /shared/Meta-Llama-3.1-8B/pretrained_weight/"
   runtimeEnvYAML: |
     working_dir: /llama3_finetune
     env_vars:
