@@ -54,7 +54,7 @@ def _set_pjrt_env_variables():
         "NEURON_RT_VISIBLE_CORES": os.environ["LOCAL_RANK"],
     }
     for name, value in env_variables.items():
-        # print (f"ray_neuron_xla_config_20: _set_pjrt_env_variables: Setting the variable {name} from {os.environ.get(name)} to {value}")
+        print (f"ray_neuron_xla_config_20: _set_pjrt_env_variables: Setting the variable {name} from {os.environ.get(name)} to {value}")
         os.environ[name] = value
 
 

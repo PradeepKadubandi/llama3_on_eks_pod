@@ -42,16 +42,6 @@ if __name__ == "__main__":
     num_cores_per_node_env_value = str(num_cores_per_node)
     num_workers_env_value = str(num_workers)
 
-    main_process_env = {
-        # These were needed for Ray Train to work on pytorch 2+ (But that was done before I knew about ray.init call below - so once validating 2+ works, remove these and see if that still works :-))
-        "NEURON_PJRT_WORLD_SIZE":num_workers_env_value,
-        "PJRT_LOCAL_PROCESS_COUNT": num_cores_per_node_env_value
-    }
-
-    for name, value in main_process_env.items():
-        print (f"Setting env variable {name} from {os.environ.get(name)} to {value}")
-        os.environ[name] = value
-
     # Set up Neuron-specific env. variables to customize this training job
     env = {
         "NEURON_CC_FLAGS": "--model-type transformer --distribution-strategy=llm-training",
@@ -66,6 +56,9 @@ if __name__ == "__main__":
         "NEURON_RT_NUM_CORES":num_cores_per_node_env_value,
         "TPU_NUM_DEVICES":num_cores_per_node_env_value,
         "TPU_CHIPS_PER_HOST_BOUNDS":num_cores_per_node_env_value,
+        # These were needed for Ray Train to work on pytorch 2+.
+        "NEURON_PJRT_WORLD_SIZE":num_workers_env_value,
+        "PJRT_LOCAL_PROCESS_COUNT": num_cores_per_node_env_value
     }
 
     if args.use_mix_precision:
