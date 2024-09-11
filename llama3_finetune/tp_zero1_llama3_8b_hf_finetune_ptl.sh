@@ -56,7 +56,7 @@ SEQ_LEN=8192
 #SEQ_LEN=4096
 #SEQ_LEN=1024
 # Path to dataset
-DATA_PATH="databricks/databricks-dolly-15k"
+DATA_PATH="/shared/databricks/databricks-dolly-15k"
 #MODEL_ID
 #MODEL_ID="meta-llama/Meta-Llama-3-8B"
 MODEL_ID="NousResearch/Meta-Llama-3.1-8B"
