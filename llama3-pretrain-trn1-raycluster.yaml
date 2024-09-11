@@ -44,7 +44,7 @@ spec:
           - name: ray-head
             #image: public.ecr.aws/data-on-eks/ray-pytorch-training-neuronx:latest # Replace with your Docker image URL
             #image: 254936107942.dkr.ecr.us-west-2.amazonaws.com/kuberay_trn1_llama3_spalakod:latest
-            image: 254936107942.dkr.ecr.us-west-2.amazonaws.com/kuberay_trn1_llama3.1:latest
+            image: 254936107942.dkr.ecr.us-west-2.amazonaws.com/kuberay_trn1_llama3.1_pytorch2:latest
             imagePullPolicy: Always # Pull the latest image each time
             lifecycle:
               preStop:
@@ -95,7 +95,7 @@ spec:
             - name: ray-worker
               #image: public.ecr.aws/data-on-eks/ray-pytorch-training-neuronx:latest # Replace with your Docker image URL
               #image: 254936107942.dkr.ecr.us-west-2.amazonaws.com/kuberay_trn1_llama3_spalakod:latest
-              image: 254936107942.dkr.ecr.us-west-2.amazonaws.com/kuberay_trn1_llama3.1:latest
+              image: 254936107942.dkr.ecr.us-west-2.amazonaws.com/kuberay_trn1_llama3.1_pytorch2:latest
               imagePullPolicy: Always # Pull the latest image each time
               lifecycle:
                 preStop:

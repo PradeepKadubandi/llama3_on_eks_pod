@@ -2,9 +2,9 @@ ARG REGION
 
 # Base image: PyTorch training image for NeuronX
 #FROM public.ecr.aws/neuron/pytorch-training-neuronx:1.13.1-neuronx-py310-sdk2.19.1-ubuntu20.04
-FROM public.ecr.aws/neuron/pytorch-training-neuronx:1.13.1-neuronx-py310-sdk2.19.1-ubuntu20.04
+# FROM public.ecr.aws/neuron/pytorch-training-neuronx:1.13.1-neuronx-py310-sdk2.19.1-ubuntu20.04
 # public.ecr.aws/neuron/pytorch-training-neuronx:1.13.1-neuronx-py310-sdk2.18.2-ubuntu20.04
-#public.ecr.aws/neuron/pytorch-training-neuronx:2.1.2-neuronx-py310-sdk2.19.1-ubuntu20.04
+FROM public.ecr.aws/neuron/pytorch-training-neuronx:2.1.2-neuronx-py310-sdk2.19.1-ubuntu20.04
 
 # Install Ray for distributed computing
 RUN pip3 install aiohttp \

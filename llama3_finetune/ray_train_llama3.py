@@ -3,7 +3,8 @@ from argparse import ArgumentParser
 import ray
 from ray.train import ScalingConfig
 from ray.train.torch import TorchTrainer
-from ray.train.torch.xla import TorchXLAConfig
+# from ray.train.torch.xla import TorchXLAConfig
+from ray_neuron_xla_config_20 import NewTorchXLAConfig as TorchXLAConfig
 
 # Use training function from NxD llama2 example
 #   see: https://awsdocs-neuron.readthedocs-hosted.com/en/latest/libraries/neuronx-distributed/tutorials/training_llama2_7b.html#llama2-7b-tp-zero1-tutorial
